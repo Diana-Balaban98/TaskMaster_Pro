@@ -8,7 +8,7 @@ export type FilterValuesType = "all" | "completed" | "active"
 
 const App = () => {
 
-    let [tasks, setTasks] = useState<Array<TaskType>>( [
+    const [tasks, setTasks] = useState<Array<TaskType>>( [
         {id: v1(), title: "CSS", isDone: true},
         {id: v1(), title: "JS", isDone: true},
         {id: v1(), title: "React", isDone: false},
@@ -21,6 +21,10 @@ const App = () => {
     const addTasks = (title: string) => {
         let newTask = {id: v1(), title: title, isDone: false}
         setTasks([newTask, ...tasks])
+    }
+
+    const changeStatus = (taskId: string, checkedValue: boolean) => {
+        setTasks(tasks.map(el => el.id === taskId ? {...el, isDone: checkedValue} : el))
     }
 
 
@@ -54,6 +58,7 @@ const App = () => {
                 removeTask={removeTask}
                 changeFilter={changeFilter}
                 addTasks={addTasks}
+                changeStatus={changeStatus}
             />
         </div>
     );
