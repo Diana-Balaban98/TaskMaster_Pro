@@ -27,7 +27,6 @@ const App = () => {
     //     {id: v1(), title: "Redux", isDone: false},
     // ])
 
-
     const addTasks = (todolistId: string, title: string) => {
         let newTask = {id: v1(), title: title, isDone: false}
         setTasks({...tasks, [todolistId]: [newTask, ...tasks[todolistId]]})
@@ -39,7 +38,6 @@ const App = () => {
         // let filteredTasks = tasks.filter(t => t.id !== id)
         // setTasks(filteredTasks);
     }
-
 
     // let [filter, setFilter] = useState<FilterValuesType>("all")
 
@@ -70,7 +68,10 @@ const App = () => {
 
 
     const changeStatus = (todolistId: string, taskId: string, checkedValue: boolean) => {
-        setTasks({...tasks, [todolistId]:tasks[todolistId].map(el => el.id === taskId ? {...el, isDone: checkedValue} : el)})
+        setTasks({
+            ...tasks,
+            [todolistId]: tasks[todolistId].map(el => el.id === taskId ? {...el, isDone: checkedValue} : el)
+        })
         // setTasks(tasks.map(el => el.id === taskId ? {...el, isDone: checkedValue} : el))
     }
 
@@ -114,6 +115,5 @@ const App = () => {
         </div>
     );
 }
-
 
 export default App;
