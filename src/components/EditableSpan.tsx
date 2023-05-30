@@ -1,6 +1,5 @@
 import React, {ChangeEvent, useState} from 'react';
-import {Simulate} from "react-dom/test-utils";
-import input = Simulate.input;
+
 
 type EditableSpanPropsType = {
     oldTitle: string
