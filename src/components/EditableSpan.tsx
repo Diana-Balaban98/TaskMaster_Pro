@@ -1,6 +1,5 @@
 import React, {ChangeEvent, useState} from 'react';
-import {Simulate} from "react-dom/test-utils";
-import input = Simulate.input;
+
 
 type EditableSpanPropsType = {
     oldTitle: string
@@ -9,27 +8,30 @@ type EditableSpanPropsType = {
 
 export const EditableSpan = ({oldTitle, callBack}: EditableSpanPropsType) => {
     const [edit, setEdit] = useState<boolean>(false)
+    const [updateTitle, setUpdateTitle] = useState<string>(oldTitle)
 
     const editFoo = () => {
         setEdit(!edit)
-    }
-
-    const [updateTitle, setUpdateTitle] = useState<string>(oldTitle)
-
-    const onChangeInputHandler = (event: ChangeEvent<HTMLInputElement>) => {
-        setUpdateTitle(event.currentTarget.value)
+        if (edit) {
+            addTaskHandler()
+        }
     }
 
     const addTaskHandler = () => {
         callBack(updateTitle)
     }
 
+    const onChangeInputHandler = (event: ChangeEvent<HTMLInputElement>) => {
+        setUpdateTitle(event.currentTarget.value)
+    }
+
+
     return (
         <>
             {edit ?
                 <input onChange={onChangeInputHandler} value={updateTitle} onBlur={editFoo} autoFocus/>
                 :
-                <span onDoubleClick={editFoo} onClick={addTaskHandler}>{oldTitle}</span>
+                <span onDoubleClick={editFoo}>{oldTitle}</span>
             }
         </>
     )

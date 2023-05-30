@@ -26,7 +26,17 @@ type TodolistPropsType = {
     updateTodolist: (todolistId: string, updateTitle: string) => void
 }
 
-export const Todolist = ({todolistId, title, updateTodolist, removeTodolist, removeTask, updateTask, tasks, addTasks, ...restProps}: TodolistPropsType) => {
+export const Todolist = ({
+                             todolistId,
+                             title,
+                             updateTodolist,
+                             removeTodolist,
+                             removeTask,
+                             updateTask,
+                             tasks,
+                             addTasks,
+                             ...restProps
+                         }: TodolistPropsType) => {
     const [buttonName, setButtonName] = useState<FilterValuesType>("all");
 
     const removeHandler = (filter: FilterValuesType) => {
@@ -35,7 +45,7 @@ export const Todolist = ({todolistId, title, updateTodolist, removeTodolist, rem
     }
 
     const removeTaskHandler = (ID: string) => {
-       removeTask(todolistId, ID);
+        removeTask(todolistId, ID);
     }
 
     const changeStatusHandler = (e: ChangeEvent<HTMLInputElement>, id: string) => {
@@ -49,7 +59,8 @@ export const Todolist = ({todolistId, title, updateTodolist, removeTodolist, rem
             <input type="checkbox" checked={task.isDone}
                    onChange={(e) => changeStatusHandler(e, task.id)}/>
             {/*<span>{task.title}</span>*/}
-            <EditableSpan oldTitle={task.title} callBack={(updateTitle: string) => updateTask(todolistId, task.id, updateTitle)}/>
+            <EditableSpan oldTitle={task.title}
+                          callBack={(updateTitle: string) => updateTaskHandler(task.id, updateTitle)}/>
         </li>
     })
 
@@ -61,8 +72,13 @@ export const Todolist = ({todolistId, title, updateTodolist, removeTodolist, rem
         addTasks(todolistId, title);
     }
 
+
+    const updateTaskHandler = (taskId: string, updateTitle: string) => {
+        updateTask(todolistId, taskId, updateTitle)
+    }
+
     const updateTodolistHandler = (updateTitle: string) => {
-            updateTodolist(todolistId, updateTitle);
+        updateTodolist(todolistId, updateTitle);
     }
 
 
@@ -73,7 +89,7 @@ export const Todolist = ({todolistId, title, updateTodolist, removeTodolist, rem
                 <EditableSpan oldTitle={title} callBack={updateTodolistHandler}/>
             </h3>
             <div style={{display: "flex"}}>
-                <AddItemForm callBack={addTaskHandler} />
+                <AddItemForm callBack={addTaskHandler}/>
             </div>
             <ul>
                 {
@@ -81,9 +97,12 @@ export const Todolist = ({todolistId, title, updateTodolist, removeTodolist, rem
                 }
             </ul>
             <div style={{display: "flex"}}>
-                <Button className={buttonName === "all" ? s.activeFilter : ""} name="All" callBack={() => removeHandler("all")}/>
-                <Button className={buttonName === "active" ? s.activeFilter : ""} name="Active" callBack={() => removeHandler("active")}/>
-                <Button className={buttonName === "completed" ? s.activeFilter : ""} name="Completed" callBack={() => removeHandler("completed")}/>
+                <Button className={buttonName === "all" ? s.activeFilter : ""} name="All"
+                        callBack={() => removeHandler("all")}/>
+                <Button className={buttonName === "active" ? s.activeFilter : ""} name="Active"
+                        callBack={() => removeHandler("active")}/>
+                <Button className={buttonName === "completed" ? s.activeFilter : ""} name="Completed"
+                        callBack={() => removeHandler("completed")}/>
             </div>
         </div>
     )
