@@ -1,8 +1,10 @@
 import React, {useState} from 'react';
 import './App.css';
-import {TaskType, Todolist} from "./TodoList";
+import {TaskType, Todolist} from "./components/TodoList/TodoList";
 import {v1} from "uuid"
-import {AddItemForm} from "./components/AddItemForm";
+import {AddItemForm} from "./components/AddItemForm/AddItemForm";
+import {ButtonAppBar} from "./components/ButtonAppBar/ButtonAppBar";
+import {Container, Grid, Paper} from "@mui/material";
 
 
 export type FilterValuesType = "all" | "completed" | "active"
@@ -18,16 +20,6 @@ type TaskAssocType = {
 }
 
 const App = () => {
-
-    const addTasks = (todolistId: string, title: string) => {
-        let newTask = {id: v1(), title: title, isDone: false};
-        setTasks({...tasks, [todolistId]: [newTask, ...tasks[todolistId]]});
-    }
-
-    const removeTask = (todolistId: string, taskId: string) => {
-        setTasks({...tasks, [todolistId]: tasks[todolistId].filter(el => el.id !== taskId)});
-    }
-
     let todolistID1 = v1();
     let todolistID2 = v1();
 
@@ -52,6 +44,15 @@ const App = () => {
             {id: v1(), title: "GraphQL2", isDone: false},
         ]
     });
+
+    const addTasks = (todolistId: string, title: string) => {
+        let newTask = {id: v1(), title: title, isDone: false};
+        setTasks({...tasks, [todolistId]: [newTask, ...tasks[todolistId]]});
+    }
+
+    const removeTask = (todolistId: string, taskId: string) => {
+        setTasks({...tasks, [todolistId]: tasks[todolistId].filter(el => el.id !== taskId)});
+    }
 
     const updateTask = (todolistId: string, taskId: string, updateTitle: string) => {
         setTasks({
@@ -92,35 +93,50 @@ const App = () => {
         });
     }
 
+    const todos =   todolists.map(el => {
+            let taskForTodolist = tasks[el.id];
+
+            if (el.filter === "completed") {
+                taskForTodolist = tasks[el.id].filter(t => t.isDone === true);
+            }
+
+            if (el.filter === "active") {
+                taskForTodolist = tasks[el.id].filter(t => t.isDone === false);
+            }
+
+            return <Grid item>
+                <Paper elevation={5}>
+                    <div style={{display: "flex"}}>
+                        <Todolist
+                            key={el.id}
+                            todolistId={el.id}
+                            title={el.title}
+                            tasks={taskForTodolist}
+                            removeTask={removeTask}
+                            changeFilter={changeFilter}
+                            addTasks={addTasks}
+                            changeStatus={changeStatus}
+                            filter={el.filter}
+                            removeTodolist={removeTodolist}
+                            updateTask={updateTask}
+                            updateTodolist={updateTodolist}
+                        />
+                    </div>
+                </Paper>
+            </Grid>
+        })
+
     return (
         <div className="App">
-            <AddItemForm callBack={addTodolist}/>
-            {todolists.map(el => {
-                let taskForTodolist = tasks[el.id];
-
-                if (el.filter === "completed") {
-                    taskForTodolist = tasks[el.id].filter(t => t.isDone === true);
-                }
-
-                if (el.filter === "active") {
-                    taskForTodolist = tasks[el.id].filter(t => t.isDone === false);
-                }
-
-                return <Todolist
-                    key={el.id}
-                    todolistId={el.id}
-                    title={el.title}
-                    tasks={taskForTodolist}
-                    removeTask={removeTask}
-                    changeFilter={changeFilter}
-                    addTasks={addTasks}
-                    changeStatus={changeStatus}
-                    filter={el.filter}
-                    removeTodolist={removeTodolist}
-                    updateTask={updateTask}
-                    updateTodolist={updateTodolist}
-                />
-            })}
+            <ButtonAppBar/>
+            <div style={{display: "flex", flexDirection: "column"}}>
+                <Container fixed>
+                    <Grid container>
+                        <AddItemForm callBack={addTodolist}/>
+                    </Grid>
+                </Container>
+                {todos}
+            </div>
         </div>
     );
 }

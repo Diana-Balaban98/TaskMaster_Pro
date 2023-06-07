@@ -1,15 +1,13 @@
 .App {
-  padding: 30px;
-  display: flex;
+
 }
 
 .App > div {
-  margin-right: 50px;
+  /*margin-right: 50px;*/
 }
 
 .todolist {
-  background-color: bisque;
-  border: 2px solid yellowgreen;
+  background: linear-gradient(90deg, #f6f7f8,#e1e8f2,#d9e1ee);
   border-radius:  5px;
   padding: 20px;
 }

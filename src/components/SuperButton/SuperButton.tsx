@@ -6,7 +6,7 @@ type ButtonPropsType = {
     className?: string
 }
 
-export const Button = (props: ButtonPropsType) => {
+export const SuperButton = (props: ButtonPropsType) => {
     const onClickHandler = () => {
         props.callBack()
     }
