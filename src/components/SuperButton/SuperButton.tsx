@@ -1,19 +1,26 @@
 import React from 'react';
+import {Button} from "@mui/material";
+
+type ColorForButton = "inherit" | "primary" | "secondary" | "success" | "error" | "info" |"warning"
 
 type ButtonPropsType = {
     name: string
+    variant: "text" | "outlined" | "contained"
+    color: ColorForButton
     callBack: () => void
-    className?: string
 }
 
-export const SuperButton = (props: ButtonPropsType) => {
+export const SuperButton: React.FC<ButtonPropsType> = ({
+    name, variant, color, callBack
+                                                       }) => {
+
     const onClickHandler = () => {
-        props.callBack()
+        callBack()
     }
 
     return (
         <div>
-            <button onClick={onClickHandler}>{props.name}</button>
+            <Button color={color} variant={variant} onClick={onClickHandler}>{name}</Button>
         </div>
     );
 };

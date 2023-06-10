@@ -129,7 +129,7 @@ const App = () => {
     return (
         <div className="App">
             <ButtonAppBar/>
-            <div style={{display: "flex", flexDirection: "column"}}>
+            <div style={{display: "flex"}}>
                 <Container fixed>
                     <Grid container>
                         <AddItemForm callBack={addTodolist}/>

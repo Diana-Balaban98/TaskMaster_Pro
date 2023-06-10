@@ -5,6 +5,7 @@ import {AddItemForm} from "../AddItemForm/AddItemForm";
 import {EditableSpan} from "../../EditableSpan/EditableSpan";
 import {Button} from '@mui/material'
 import Checkbox from '@mui/material/Checkbox';
+import {SuperButton} from "../SuperButton/SuperButton";
 
 
 
@@ -47,9 +48,7 @@ export const Todolist = ({
         setButtonName(filter);
     }
 
-    const removeTaskHandler = (ID: string) => {
-        removeTask(todolistId, ID);
-    }
+    const removeTaskHandler = (ID: string) => () => removeTask(todolistId, ID);
 
     const changeStatusHandler = (e: ChangeEvent<HTMLInputElement>, id: string) => {
         restProps.changeStatus(todolistId, id, e.currentTarget.checked);
@@ -57,12 +56,11 @@ export const Todolist = ({
 
     const mappedTasks = tasks.map((task, index) => {
 
-        return <li className={task.isDone ? s.isDone : ""} style={{display: "flex"}} key={index}>
-            {/*<SuperButton name={"X"} callBack={() => removeTaskHandler(task.id)}/>*/}
+        return <li className={`${s.task} ${task.isDone ? s.isDone : ""}`} key={index}>
             <Checkbox onChange={(e) => changeStatusHandler(e, task.id)} checked={task.isDone}  />
-            {/*<span>{task.title}</span>*/}
             <EditableSpan oldTitle={task.title}
                           callBack={(updateTitle: string) => updateTaskHandler(task.id, updateTitle)}/>
+            {/*<SuperButton name={"X"} callBack={removeTaskHandler(task.id)}/>*/}
         </li>
     })
 
@@ -102,15 +100,9 @@ export const Todolist = ({
                 }
             </ul>
             <div style={{display: "flex"}}>
-                <Button variant={buttonName === 'all' ? "outlined":"contained"} color='primary' onClick={() => removeHandler("all")}>All</Button>
-                <Button variant={buttonName === 'active' ? "outlined":"contained"} color='success' onClick={() => removeHandler("active")}>Active</Button>
-                <Button variant={buttonName === 'completed' ? "outlined":"contained"} color='error' onClick={() => removeHandler("completed")}>Completed</Button>
-                {/*<SuperButton className={buttonName === "all" ? s.activeFilter : ""} name="All"*/}
-                {/*        callBack={() => removeHandler("all")}/>*/}
-                {/*<SuperButton className={buttonName === "active" ? s.activeFilter : ""} name="Active"*/}
-                {/*        callBack={() => removeHandler("active")}/>*/}
-                {/*<SuperButton className={buttonName === "completed" ? s.activeFilter : ""} name="Completed"*/}
-                {/*        callBack={() => removeHandler("completed")}/>*/}
+                <SuperButton name="All" variant={buttonName === 'all' ? "outlined":"contained"} color="primary" callBack={() => removeHandler("all")}/>
+                <SuperButton name="Active" variant={buttonName === 'active' ? "outlined":"contained"} color='success' callBack={() => removeHandler("active")}/>
+                <SuperButton name="Completed" variant={buttonName === 'completed' ? "outlined":"contained"} color='secondary' callBack={() => removeHandler("completed")}/>
             </div>
         </div>
     )
