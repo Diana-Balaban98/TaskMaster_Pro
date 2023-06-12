@@ -1,5 +1,5 @@
 import {AppBar, Box, Button, IconButton, Typography, Toolbar} from "@mui/material";
-// import MenuIcon from "@mui/icons-material";
+import MenuIcon from "@mui/icons-material/Menu";
 
 export function ButtonAppBar() {
     return (
@@ -13,7 +13,7 @@ export function ButtonAppBar() {
                         aria-label="menu"
                         sx={{ mr: 2 }}
                     >
-                        {/*<MenuIcon />*/}
+                        <MenuIcon/>
                     </IconButton>
                     <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
                         News

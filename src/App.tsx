@@ -93,50 +93,48 @@ const App = () => {
         });
     }
 
-    const todos =   todolists.map(el => {
-            let taskForTodolist = tasks[el.id];
+    const todos = todolists.map(el => {
+        let taskForTodolist = tasks[el.id];
 
-            if (el.filter === "completed") {
-                taskForTodolist = tasks[el.id].filter(t => t.isDone === true);
-            }
+        if (el.filter === "completed") {
+            taskForTodolist = tasks[el.id].filter(t => t.isDone);
+        }
 
-            if (el.filter === "active") {
-                taskForTodolist = tasks[el.id].filter(t => t.isDone === false);
-            }
+        if (el.filter === "active") {
+            taskForTodolist = tasks[el.id].filter(t => !t.isDone);
+        }
 
-            return <Grid item>
-                <Paper elevation={5}>
-                    <div style={{display: "flex"}}>
-                        <Todolist
-                            key={el.id}
-                            todolistId={el.id}
-                            title={el.title}
-                            tasks={taskForTodolist}
-                            removeTask={removeTask}
-                            changeFilter={changeFilter}
-                            addTasks={addTasks}
-                            changeStatus={changeStatus}
-                            filter={el.filter}
-                            removeTodolist={removeTodolist}
-                            updateTask={updateTask}
-                            updateTodolist={updateTodolist}
-                        />
-                    </div>
-                </Paper>
-            </Grid>
-        })
+        return <Grid item>
+            <Paper elevation={5} style={{margin: '10px'}}>
+                    <Todolist
+                        key={el.id}
+                        todolistId={el.id}
+                        title={el.title}
+                        tasks={taskForTodolist}
+                        removeTask={removeTask}
+                        changeFilter={changeFilter}
+                        addTasks={addTasks}
+                        changeStatus={changeStatus}
+                        filter={el.filter}
+                        removeTodolist={removeTodolist}
+                        updateTask={updateTask}
+                        updateTodolist={updateTodolist}
+                    />
+            </Paper>
+        </Grid>
+    })
 
     return (
         <div className="App">
             <ButtonAppBar/>
-            <div style={{display: "flex"}}>
                 <Container fixed>
-                    <Grid container>
+                    <Grid container style={{marginTop: '10px'}}>
                         <AddItemForm callBack={addTodolist}/>
                     </Grid>
+                    <Grid container>
+                        {todos}
+                    </Grid>
                 </Container>
-                {todos}
-            </div>
         </div>
     );
 }

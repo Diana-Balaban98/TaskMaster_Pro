@@ -1,7 +1,6 @@
 import React, {ChangeEvent, useState} from 'react';
-import s from "../TodoList/Todolist.module.css";
-import {Button} from '@mui/material'
 import TextField from '@mui/material/TextField';
+import {SuperButton} from "../SuperButton/SuperButton";
 
 
 type AddItemFormPropsType = {
@@ -34,15 +33,8 @@ export const AddItemForm = (props: AddItemFormPropsType) => {
         }
     }
 
-    const buttonStyles={
-        maxWidth: '30px',
-        maxHeight: '30px',
-        minWidth: '30px',
-        minHeight: '30px',
-    }
 
     return (
-        <div>
             <div style={{display: "flex"}}>
                 <TextField
                     error={!!error}
@@ -54,12 +46,8 @@ export const AddItemForm = (props: AddItemFormPropsType) => {
                     onChange={onChangeInputHandler}
                     onKeyPress={onKeyPressHandler}
                 />
-                {/*<input className={error ? s.error : ""} style={{marginRight: "5px"}} value={newTask}*/}
-                {/*       onChange={onChangeInputHandler} onKeyPress={onKeyPressHandler}/>*/}
-                {/*<SuperButton name={"+"} callBack={onClickHandler}/>*/}
-                <Button style={buttonStyles} onClick={onClickHandler} variant="contained">+</Button>
+                <SuperButton name="+" callBack={onClickHandler} variant="contained" color="primary"/>
             </div>
-        </div>
     );
 };
 

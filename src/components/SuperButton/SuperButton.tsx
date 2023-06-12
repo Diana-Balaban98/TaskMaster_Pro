@@ -5,8 +5,8 @@ type ColorForButton = "inherit" | "primary" | "secondary" | "success" | "error" 
 
 type ButtonPropsType = {
     name: string
-    variant: "text" | "outlined" | "contained"
-    color: ColorForButton
+    variant?: "text" | "outlined" | "contained"
+    color?: ColorForButton
     callBack: () => void
 }
 
@@ -20,7 +20,7 @@ export const SuperButton: React.FC<ButtonPropsType> = ({
 
     return (
         <div>
-            <Button color={color} variant={variant} onClick={onClickHandler}>{name}</Button>
+            <Button style={{marginLeft: '7px'}} color={color} variant={variant} onClick={onClickHandler}>{name}</Button>
         </div>
     );
 };

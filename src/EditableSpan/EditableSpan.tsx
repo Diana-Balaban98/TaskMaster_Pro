@@ -25,7 +25,6 @@ export const EditableSpan = ({oldTitle, callBack}: EditableSpanPropsType) => {
         setUpdateTitle(event.currentTarget.value)
     }
 
-
     return (
         <>
             {edit ?
