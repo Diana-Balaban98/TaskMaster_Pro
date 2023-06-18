@@ -8,6 +8,7 @@ import {SuperButton} from "../SuperButton/SuperButton";
 import ClearIcon from '@mui/icons-material/Clear';
 import {IconButton} from "@mui/material";
 import {Delete} from "@mui/icons-material";
+import {SuperCheckbox} from "../SuperCheckbox/SuperCheckbox";
 
 
 export type TaskType = {
@@ -50,14 +51,14 @@ export const Todolist = ({
 
     const removeTaskHandler = (ID: string) => () => removeTask(todolistId, ID);
 
-    const changeStatusHandler = (e: ChangeEvent<HTMLInputElement>, id: string) => {
-        restProps.changeStatus(todolistId, id, e.currentTarget.checked);
+    const changeStatusHandler = (checked: boolean, id: string) => {
+        restProps.changeStatus(todolistId, id, checked);
     }
 
     const mappedTasks = tasks.map((task, index) => {
 
         return <li className={`${s.task} ${task.isDone ? s.isDone : ""}`} key={index}>
-            <Checkbox onChange={(e) => changeStatusHandler(e, task.id)} checked={task.isDone}/>
+            <SuperCheckbox callBack={(checked: boolean) => changeStatusHandler(checked, task.id)} checked={task.isDone}/>
             <EditableSpan oldTitle={task.title}
                           callBack={(updateTitle: string) => updateTaskHandler(task.id, updateTitle)}/>
             <ClearIcon color="action" onClick={removeTaskHandler(task.id)}/>
