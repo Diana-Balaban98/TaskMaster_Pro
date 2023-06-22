@@ -1,9 +1,8 @@
-import React, {ChangeEvent, useState} from "react";
+import React, {useState} from "react";
 import {FilterValuesType} from "../../App";
 import s from "./Todolist.module.css"
 import {AddItemForm} from "../AddItemForm/AddItemForm";
 import {EditableSpan} from "../../EditableSpan/EditableSpan";
-import Checkbox from '@mui/material/Checkbox';
 import {SuperButton} from "../SuperButton/SuperButton";
 import ClearIcon from '@mui/icons-material/Clear';
 import {IconButton} from "@mui/material";
