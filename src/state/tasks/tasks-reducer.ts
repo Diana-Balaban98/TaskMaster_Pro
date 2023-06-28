@@ -1,5 +1,5 @@
 import {TaskAssocType} from "../../App";
-import {AddTodolistACType, RemoveTodolistACType, todolistID1, todolistID2} from "../todolists/todolists-reducer";
+import {AddTodolistACType, RemoveTodolistACType, todolistID1, todolistID2} from "../../state/todolists/todolists-reducer";
 import {v1} from "uuid";
 
 

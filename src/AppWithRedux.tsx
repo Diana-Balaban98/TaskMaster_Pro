@@ -9,10 +9,10 @@ import {
     changeFilterAC,
     changeTodolistTitleAC,
     removeTodolistAC,
-} from "./tests/todolists/todolists-reducer";
-import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC} from "./tests/tasks/tasks-reducer";
+} from "./state/todolists/todolists-reducer";
+import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC} from "./state/tasks/tasks-reducer";
 import {useDispatch, useSelector} from "react-redux";
-import {AppRootStateType} from "./tests/store";
+import {AppRootStateType} from "./state/store";
 
 
 export type FilterValuesType = "all" | "completed" | "active"

@@ -1,4 +1,4 @@
-import {tasksReducer} from '../tests/tasks/tasks-reducer';
+import {tasksReducer} from './tasks/tasks-reducer';
 import {todolistsReducer} from './todolists/todolists-reducer';
 import {combineReducers, createStore} from 'redux';
 
