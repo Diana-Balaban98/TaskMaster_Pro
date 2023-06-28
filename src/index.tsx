@@ -1,8 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import App from './App';
-
+import {AppWithRedux} from "./AppWithRedux";
+import {Provider} from "react-redux";
+import {store} from "./tests/store";
 
 
 
@@ -12,7 +13,10 @@ const root = ReactDOM.createRoot(
 
 root.render(
   //<React.StrictMode>
-    <App /> // универсальная компонента для сборки всего приложения
+        <Provider store={store}>
+            <AppWithRedux/>
+        </Provider>
+// универсальная компонента для сборки всего приложения
  // </React.StrictMode> // рендер с целью проверки, если используются старые методы
 );
 

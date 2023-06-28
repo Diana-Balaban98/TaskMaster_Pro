@@ -1,5 +1,8 @@
 import {TaskAssocType} from "../../App";
-import {AddTodolistACType, RemoveTodolistACType} from "../todolists/todolists-reducer";
+import {ActionTypes, AddTodolistACType, RemoveTodolistACType, todolistsReducer} from "../todolists/todolists-reducer";
+import {v1} from "uuid";
+import {Reducer, useReducer} from "react";
+import {TodolistType} from "../../AppWithReducer";
 
 
 export type RemoveTaskActionType = ReturnType<typeof removeTaskAC>
@@ -10,7 +13,7 @@ export type ChangeTaskStatusActionType = ReturnType<typeof changeTaskStatusAC>
 
 export type ChangeTaskTitleActionType = ReturnType<typeof changeTaskTitleAC>
 
-type ActionsType =
+export type ActionsType =
     RemoveTaskActionType
     | AddTaskActionType
     | ChangeTaskStatusActionType
@@ -18,7 +21,27 @@ type ActionsType =
     | AddTodolistACType
     | RemoveTodolistACType
 
-export const tasksReducer = (state: TaskAssocType, action: ActionsType): TaskAssocType => {
+// let todolistID1 = v1();
+// let todolistID2 = v1();
+
+let initialState: TaskAssocType = {
+    // [todolistID1]: [
+    //     {id: v1(), title: "HTML&CSS", isDone: true},
+    //     {id: v1(), title: "JS", isDone: true},
+    //     {id: v1(), title: "ReactJS", isDone: false},
+    //     {id: v1(), title: "Rest API", isDone: false},
+    //     {id: v1(), title: "GraphQL", isDone: false},
+    // ],
+    // [todolistID2]: [
+    //     {id: v1(), title: "HTML&CSS2", isDone: true},
+    //     {id: v1(), title: "JS2", isDone: true},
+    //     {id: v1(), title: "ReactJS2", isDone: false},
+    //     {id: v1(), title: "Rest API2", isDone: false},
+    //     {id: v1(), title: "GraphQL2", isDone: false},
+    // ]
+}
+
+export const tasksReducer = (state = initialState, action: ActionsType): TaskAssocType => {
     switch (action.type) {
         case 'REMOVE-TASK':
             return {
@@ -27,6 +50,7 @@ export const tasksReducer = (state: TaskAssocType, action: ActionsType): TaskAss
             }
         case 'ADD-TASK':
             const newTask = {id: "4", title: action.payload.title, isDone: false}
+            debugger
             return {...state, [action.payload.todolistId]: [newTask, ...state[action.payload.todolistId]]}
         case "CHANGE-TASK":
             return {
@@ -54,7 +78,7 @@ export const tasksReducer = (state: TaskAssocType, action: ActionsType): TaskAss
             const {[action.payload.id]: [], ...rest} = state
             return rest
         default:
-            throw new Error("I don't understand this type")
+            return state
     }
 }
 
