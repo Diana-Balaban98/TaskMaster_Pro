@@ -7,14 +7,14 @@ type AddItemFormPropsType = {
     callBack: (title: string) => void
 }
 
-export const AddItemForm = (props: AddItemFormPropsType) => {
+export const AddItemForm = React.memo(({callBack}: AddItemFormPropsType) => {
     const [newTask, setNewTask] = useState<string>("")
     const [error, setError] = useState<string | boolean>("")
 
 
     const onClickHandler = () => {
         if (newTask.trim() !== "") {
-            props.callBack(newTask.trim())
+           callBack(newTask.trim())
             setNewTask("")
         } else {
             setError("Title is required")
@@ -49,5 +49,5 @@ export const AddItemForm = (props: AddItemFormPropsType) => {
                 <SuperButton name="+" callBack={onClickHandler} variant="contained" color="primary"/>
             </div>
     );
-};
+});
 

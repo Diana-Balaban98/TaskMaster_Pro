@@ -1,5 +1,10 @@
 import {TaskAssocType} from "../../App";
-import {AddTodolistACType, RemoveTodolistACType, todolistID1, todolistID2} from "../../state/todolists/todolists-reducer";
+import {
+    AddTodolistACType,
+    RemoveTodolistACType,
+    todolistID1,
+    todolistID2
+} from "../../state/todolists/todolists-reducer";
 import {v1} from "uuid";
 
 
@@ -28,11 +33,11 @@ let initialState: TaskAssocType = {
         {id: v1(), title: "GraphQL", isDone: false},
     ],
     [todolistID2]: [
-        {id: v1(), title: "HTML&CSS2", isDone: true},
-        {id: v1(), title: "JS2", isDone: true},
-        {id: v1(), title: "ReactJS2", isDone: false},
-        {id: v1(), title: "Rest API2", isDone: false},
-        {id: v1(), title: "GraphQL2", isDone: false},
+        {id: v1(), title: "Milk", isDone: true},
+        {id: v1(), title: "Bread", isDone: true},
+        {id: v1(), title: "Water", isDone: false},
+        {id: v1(), title: "Orange", isDone: false},
+        {id: v1(), title: "Ice-cream", isDone: false},
     ]
 }
 

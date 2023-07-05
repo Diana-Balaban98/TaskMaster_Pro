@@ -1,7 +1,7 @@
 import React from 'react';
 import {Button} from "@mui/material";
 
-type ColorForButton = "inherit" | "primary" | "secondary" | "success" | "error" | "info" |"warning"
+type ColorForButton = "inherit" | "primary" | "secondary" | "success" | "error" | "info" | "warning"
 
 type ButtonPropsType = {
     name: string
@@ -10,18 +10,18 @@ type ButtonPropsType = {
     callBack: () => void
 }
 
-export const SuperButton: React.FC<ButtonPropsType> = ({
-    name, variant, color, callBack
-                                                       }) => {
-
-    const onClickHandler = () => {
-        callBack()
-    }
+export const SuperButton: React.FC<ButtonPropsType> = React.memo(({
+                                                                      name,
+                                                                      variant,
+                                                                      color,
+                                                                      callBack
+                                                                  }) => {
+    const onClickHandler = () => callBack()
 
     return (
         <div>
             <Button style={{marginLeft: '7px'}} color={color} variant={variant} onClick={onClickHandler}>{name}</Button>
         </div>
     );
-};
+});
 
