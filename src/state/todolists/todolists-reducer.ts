@@ -5,8 +5,8 @@ export let todolistID1 = v1();
 export let todolistID2 = v1();
 
 let initialState: TodolistType[] = [
-    {id: todolistID1, title: 'What to learn', filter: 'all'},
-    {id: todolistID2, title: 'What to buy', filter: 'all'},
+    // {id: todolistID1, title: 'What to learn', filter: 'all'},
+    // {id: todolistID2, title: 'What to buy', filter: 'all'},
 ]
 
 export const todolistsReducer = (state = initialState, action: ActionTypes): TodolistType[] => {
@@ -24,12 +24,19 @@ export const todolistsReducer = (state = initialState, action: ActionTypes): Tod
         case "CHANGE-TODOLIST-FILTER": {
             return state.map(tl => tl.id === action.payload.id ? {...tl, filter: action.payload.filter} : tl)
         }
+        case "SET-TODOS":
+            const copyState = {...state}
+            action.todos.forEach(el => {
+                copyState[el.id] = []
+            })
+            return copyState
         default:
             return state
     }
 }
 
-export type ActionTypes = RemoveTodolistACType | AddTodolistACType | ChangeTodolistTitleACType | ChangeFilterACType
+export type ActionTypes = RemoveTodolistACType | AddTodolistACType | ChangeTodolistTitleACType | ChangeFilterACType | SetTodosType
+
 export type RemoveTodolistACType = ReturnType<typeof removeTodolistAC>
 
 export const removeTodolistAC = (id: string) => {
@@ -60,3 +67,7 @@ export const changeFilterAC = (id: string, filter: FilterValuesType) => ({
     type: "CHANGE-TODOLIST-FILTER",
     payload: {id, filter}
 } as const)
+
+type SetTodosType = ReturnType<typeof setTodosAC>
+
+export const setTodosAC = (todos: TodolistType[]) => ({type: "SET-TODOS", todos} as const)

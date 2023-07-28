@@ -1,4 +1,4 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import './App.css';
 import {TaskType, Todolist} from "./components/TodoList/TodoList";
 import {AddItemForm} from "./components/AddItemForm/AddItemForm";
@@ -8,11 +8,12 @@ import {
     addTodolistAC,
     changeFilterAC,
     changeTodolistTitleAC,
-    removeTodolistAC,
+    removeTodolistAC, setTodosAC,
 } from "./state/todolists/todolists-reducer";
 import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC} from "./state/tasks/tasks-reducer";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "./state/store";
+import {todolistsApi} from "./api/todolists-api";
 
 
 export type FilterValuesType = "all" | "completed" | "active"
@@ -31,6 +32,13 @@ export const AppWithRedux = () => {
     let todolists = useSelector<AppRootStateType, TodolistType[]>(state => state.todolists)
     let tasks = useSelector<AppRootStateType, TaskAssocType>(state => state.tasks)
     let dispatch = useDispatch()
+
+    useEffect(() => {
+        todolistsApi.getTodo()
+            .then(res => {
+                dispatch(setTodosAC(res.data))
+            })
+    }, [])
 
     // functions for change tasks
     const addTask = useCallback((todolistId: string, title: string) => {
