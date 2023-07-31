@@ -1,7 +1,7 @@
 import {instance} from "./todolists-api";
 import {ResponseType} from "./todolists-api";
 
-type TaskType = {
+export type TaskType = {
     id: string
     title: string
     description: string,

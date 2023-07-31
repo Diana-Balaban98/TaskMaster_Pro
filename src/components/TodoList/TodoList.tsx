@@ -6,13 +6,8 @@ import {SuperButton} from "../SuperButton/SuperButton";
 import {IconButton} from "@mui/material";
 import {Delete} from "@mui/icons-material";
 import {Task} from "../Task/Task";
+import {TaskType} from "../../api/tasks-api";
 
-
-export type TaskType = {
-    id: string
-    title: string
-    isDone: boolean
-}
 
 type TodolistPropsType = {
     todolistId: string

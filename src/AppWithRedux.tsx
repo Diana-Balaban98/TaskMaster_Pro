@@ -1,6 +1,6 @@
 import React, {useCallback, useEffect} from 'react';
 import './App.css';
-import {TaskType, Todolist} from "./components/TodoList/TodoList";
+import {Todolist} from "./components/TodoList/TodoList";
 import {AddItemForm} from "./components/AddItemForm/AddItemForm";
 import {ButtonAppBar} from "./components/ButtonAppBar/ButtonAppBar";
 import {Container, Grid, Paper} from "@mui/material";
@@ -8,21 +8,14 @@ import {
     addTodolistAC,
     changeFilterAC,
     changeTodolistTitleAC,
-    removeTodolistAC, setTodosAC,
+    removeTodolistAC,
+    setTodosAC,
 } from "./state/todolists/todolists-reducer";
 import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC} from "./state/tasks/tasks-reducer";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "./state/store";
-import {todolistsApi} from "./api/todolists-api";
-
-
-export type FilterValuesType = "all" | "completed" | "active"
-
-export type TodolistType = {
-    id: string
-    title: string
-    filter: FilterValuesType
-}
+import {todolistsApi, TodolistType} from "./api/todolists-api";
+import {TaskType} from "./api/tasks-api";
 
 export type TaskAssocType = {
     [key: string]: TaskType[]
