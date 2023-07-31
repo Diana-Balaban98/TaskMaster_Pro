@@ -49,7 +49,8 @@ export const DeleteTodolist = () => {
 
     return <div>
         <h2>Удаление тудулиста:</h2>
-        <input value={todolistId} onChange={(e) => setTodolistId(e.currentTarget.value)} placeholder="Введите todolistId"/>
+        <input value={todolistId} onChange={(e) => setTodolistId(e.currentTarget.value)}
+               placeholder="Введите todolistId"/>
         <button onClick={deleteTodolist}>Удалить</button>
         <div>Результат: {JSON.stringify(state)}</div>
     </div>
@@ -69,7 +70,8 @@ export const UpdateTodolistTitle = () => {
 
     return <div>
         <h2>Обновление тудулиста:</h2>
-        <input value={todolistId} onChange={(e) => setTodolistId(e.currentTarget.value)} placeholder="Введите todolistId"/>
+        <input value={todolistId} onChange={(e) => setTodolistId(e.currentTarget.value)}
+               placeholder="Введите todolistId"/>
         <input value={title} onChange={(e) => setTitle(e.currentTarget.value)} placeholder="Название тудулиста..."/>
         <button onClick={updateTodolist}>Изменить название тудулиста</button>
         <div>Результат: {JSON.stringify(state)}</div>
