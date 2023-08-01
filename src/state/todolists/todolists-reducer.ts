@@ -4,7 +4,7 @@ import {TodolistType} from "../../api/todolists-api";
 // export let todolistID1 = v1();
 // export let todolistID2 = v1();
 
-type FilterValuesType = "all" | "completed" | "active"
+export type FilterValuesType = "all" | "completed" | "active"
 
 export type TodolistDomainType = TodolistType & {
     filter: FilterValuesType

@@ -1,13 +1,9 @@
-import {TaskAssocType} from "../../App";
-import {
-    AddTodolistACType,
-    RemoveTodolistACType,
-    todolistID1,
-    todolistID2
-} from "../../state/todolists/todolists-reducer";
+import {TaskAssocType} from "../../AppWithRedux";
+import {AddTodolistACType, RemoveTodolistACType} from "../../state/todolists/todolists-reducer";
 import {v1} from "uuid";
+import {TaskType} from "../../api/tasks-api";
 
-
+// types action (objects)
 export type RemoveTaskActionType = ReturnType<typeof removeTaskAC>
 
 export type AddTaskActionType = ReturnType<typeof addTaskAC>
@@ -25,20 +21,20 @@ export type ActionsType =
     | RemoveTodolistACType
 
 let initialState: TaskAssocType = {
-    [todolistID1]: [
-        {id: v1(), title: "HTML&CSS", isDone: true},
-        {id: v1(), title: "JS", isDone: true},
-        {id: v1(), title: "ReactJS", isDone: false},
-        {id: v1(), title: "Rest API", isDone: false},
-        {id: v1(), title: "GraphQL", isDone: false},
-    ],
-    [todolistID2]: [
-        {id: v1(), title: "Milk", isDone: true},
-        {id: v1(), title: "Bread", isDone: true},
-        {id: v1(), title: "Water", isDone: false},
-        {id: v1(), title: "Orange", isDone: false},
-        {id: v1(), title: "Ice-cream", isDone: false},
-    ]
+    // [todolistID1]: [
+    //     {id: v1(), title: "HTML&CSS", isDone: true},
+    //     {id: v1(), title: "JS", isDone: true},
+    //     {id: v1(), title: "ReactJS", isDone: false},
+    //     {id: v1(), title: "Rest API", isDone: false},
+    //     {id: v1(), title: "GraphQL", isDone: false},
+    // ],
+    // [todolistID2]: [
+    //     {id: v1(), title: "Milk", isDone: true},
+    //     {id: v1(), title: "Bread", isDone: true},
+    //     {id: v1(), title: "Water", isDone: false},
+    //     {id: v1(), title: "Orange", isDone: false},
+    //     {id: v1(), title: "Ice-cream", isDone: false},
+    // ]
 }
 
 export const tasksReducer = (state = initialState, action: ActionsType): TaskAssocType => {
@@ -49,8 +45,7 @@ export const tasksReducer = (state = initialState, action: ActionsType): TaskAss
                 [action.payload.todolistId]: state[action.payload.todolistId].filter(t => t.id !== action.payload.taskId)
             }
         case 'ADD-TASK':
-            const newTask = {id: v1(), title: action.payload.title, isDone: false}
-            debugger
+            const newTask: TaskType = {id: v1(), title: action.payload.title, status: 0, addedDate: "", deadline: "", description: "", order: 1, startDate: "", priority: 1, todoListId: action.payload.todolistId}
             return {...state, [action.payload.todolistId]: [newTask, ...state[action.payload.todolistId]]}
         case "CHANGE-TASK":
             return {
@@ -75,12 +70,15 @@ export const tasksReducer = (state = initialState, action: ActionsType): TaskAss
             // const copyState = {...state}
             // delete copyState[action.payload.id]
             // return copyState
-            const {[action.payload.id]: [], ...rest} = state
+            const {[action.payload.todolistId]: [], ...rest} = state
             return rest
         default:
             return state
     }
 }
+
+
+// creation actions create
 
 export const removeTaskAC = (taskId: string, todolistId: string) => {
     return {type: 'REMOVE-TASK', payload: {taskId, todolistId}} as const

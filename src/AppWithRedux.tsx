@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect} from 'react';
+import React, {useCallback} from 'react';
 import './App.css';
 import {Todolist} from "./components/TodoList/TodoList";
 import {AddItemForm} from "./components/AddItemForm/AddItemForm";
@@ -9,29 +9,29 @@ import {
     changeFilterAC,
     changeTodolistTitleAC,
     removeTodolistAC,
-    setTodosAC,
+    TodolistDomainType,
 } from "./state/todolists/todolists-reducer";
 import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC} from "./state/tasks/tasks-reducer";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "./state/store";
-import {todolistsApi, TodolistType} from "./api/todolists-api";
 import {TaskType} from "./api/tasks-api";
+import {FilterValuesType} from "../src/state/todolists/todolists-reducer";
 
 export type TaskAssocType = {
     [key: string]: TaskType[]
 }
 
 export const AppWithRedux = () => {
-    let todolists = useSelector<AppRootStateType, TodolistType[]>(state => state.todolists)
+    let todolists = useSelector<AppRootStateType, TodolistDomainType[]>(state => state.todolists)
     let tasks = useSelector<AppRootStateType, TaskAssocType>(state => state.tasks)
     let dispatch = useDispatch()
 
-    useEffect(() => {
-        todolistsApi.getTodo()
-            .then(res => {
-                dispatch(setTodosAC(res.data))
-            })
-    }, [])
+    // useEffect(() => {
+    //     todolistsApi.getTodo()
+    //         .then(res => {
+    //             dispatch(setTodosAC(res.data))
+    //         })
+    // }, [])
 
     // functions for change tasks
     const addTask = useCallback((todolistId: string, title: string) => {
@@ -49,6 +49,8 @@ export const AppWithRedux = () => {
     const changeStatusTask = useCallback((todolistId: string, taskId: string, checkedValue: boolean) => {
         dispatch(changeTaskStatusAC(taskId, checkedValue, todolistId))
     }, []);
+
+
 
     // functions for change todolist
     const addTodolist = useCallback((newTitle: string) => {

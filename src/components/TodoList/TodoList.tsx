@@ -1,5 +1,5 @@
 import React, {useCallback, useState} from "react";
-import {FilterValuesType} from "../../App";
+import {FilterValuesType} from "../../state/todolists/todolists-reducer";
 import {AddItemForm} from "../AddItemForm/AddItemForm";
 import {EditableSpan} from "../EditableSpan/EditableSpan";
 import {SuperButton} from "../SuperButton/SuperButton";
@@ -56,11 +56,11 @@ export const Todolist = React.memo(({
     let allTasks = tasks;
 
     if (restProps.filter === "completed") {
-        allTasks = tasks.filter(t => t.isDone);
+        allTasks = tasks.filter(t => t.status);
     }
 
     if (restProps.filter === "active") {
-        allTasks = tasks.filter(t => !t.isDone);
+        allTasks = tasks.filter(t => !t.status);
     }
 
 

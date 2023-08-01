@@ -3,7 +3,8 @@ import s from "../TodoList/Todolist.module.css";
 import {SuperCheckbox} from "../SuperCheckbox/SuperCheckbox";
 import {EditableSpan} from "../EditableSpan/EditableSpan";
 import ClearIcon from "@mui/icons-material/Clear";
-import {TaskType} from "../TodoList/TodoList";
+import {TaskType} from "../../api/tasks-api";
+
 
 type TaskPropsType = {
     task: TaskType
@@ -14,8 +15,8 @@ type TaskPropsType = {
 
 
 export const Task = React.memo(({task, updateTask, removeTask, changeStatus}: TaskPropsType) => {
-    return <li className={`${s.task} ${task.isDone ? s.isDone : ""}`}>
-        <SuperCheckbox callBack={(checked: boolean) => changeStatus(task.id, checked)} checked={task.isDone}/>
+    return <li className={`${s.task} ${task.status ? s.isDone : ""}`}>
+        <SuperCheckbox callBack={(checked: boolean) => changeStatus(task.id, checked)} checked={!!task.status}/>
         <EditableSpan oldTitle={task.title}
                       callBack={(updateTitle: string) => updateTask(task.id, updateTitle)}/>
         <ClearIcon color="action" onClick={() => removeTask(task.id)}/>
