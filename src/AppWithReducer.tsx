@@ -3,7 +3,7 @@ import React from 'react';
 const AppWithReducer = () => {
     return (
         <div>
-            Hello
+          AppWithReducer with  useReducer()
         </div>
     );
 };
