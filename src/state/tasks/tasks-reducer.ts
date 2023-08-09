@@ -1,5 +1,5 @@
 import {TaskAssocType} from "../../AppWithRedux";
-import {AddTodolistACType, RemoveTodolistACType} from "../../state/todolists/todolists-reducer";
+import {AddTodolistACType, RemoveTodolistACType, SetTodosType} from "../../state/todolists/todolists-reducer";
 import {v1} from "uuid";
 import {TaskType} from "../../api/tasks-api";
 
@@ -19,23 +19,9 @@ export type ActionsType =
     | ChangeTaskTitleActionType
     | AddTodolistACType
     | RemoveTodolistACType
+    | SetTodosType
 
-let initialState: TaskAssocType = {
-    // [todolistID1]: [
-    //     {id: v1(), title: "HTML&CSS", isDone: true},
-    //     {id: v1(), title: "JS", isDone: true},
-    //     {id: v1(), title: "ReactJS", isDone: false},
-    //     {id: v1(), title: "Rest API", isDone: false},
-    //     {id: v1(), title: "GraphQL", isDone: false},
-    // ],
-    // [todolistID2]: [
-    //     {id: v1(), title: "Milk", isDone: true},
-    //     {id: v1(), title: "Bread", isDone: true},
-    //     {id: v1(), title: "Water", isDone: false},
-    //     {id: v1(), title: "Orange", isDone: false},
-    //     {id: v1(), title: "Ice-cream", isDone: false},
-    // ]
-}
+let initialState: TaskAssocType = {}
 
 export const tasksReducer = (state = initialState, action: ActionsType): TaskAssocType => {
     switch (action.type) {
@@ -63,15 +49,20 @@ export const tasksReducer = (state = initialState, action: ActionsType): TaskAss
                     title: action.payload.title
                 } : t)
             }
-        case "ADD-TODOLIST": {
+        case "ADD-TODOLIST":
             return {...state, [action.todolistId]: []}
-        }
         case "REMOVE-TODOLIST":
             // const copyState = {...state}
             // delete copyState[action.payload.id]
             // return copyState
             const {[action.payload.todolistId]: [], ...rest} = state
             return rest
+        case "SET-TODOLISTS":
+            const copyState = {...state}
+            action.todos.forEach(tl => {
+                copyState[tl.id] = [];
+            })
+            return copyState
         default:
             return state
     }
@@ -88,7 +79,7 @@ export const addTaskAC = (title: string, todolistId: string) => {
     return {type: 'ADD-TASK', payload: {title, todolistId}} as const
 }
 
-export const changeTaskStatusAC = (taskId: string, isDone: boolean, todolistId: string) => {
+export const changeTaskStatusAC = (taskId: string, isDone: boolean | number, todolistId: string) => {
     return {type: 'CHANGE-TASK', payload: {taskId, todolistId, isDone}} as const
 }
 
