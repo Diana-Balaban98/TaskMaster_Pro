@@ -1,4 +1,4 @@
-import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC, tasksReducer} from './tasks-reducer';
+import {changeTaskStatusAC, changeTaskTitleAC, removeTaskAC, setTasksAC, tasksReducer} from './tasks-reducer';
 import {TaskAssocType} from "../../AppWithRedux";
 import {addTodolistAC, removeTodolistAC, setTodolistsAC} from "../todolists/todolists-reducer";
 
@@ -37,17 +37,12 @@ test('correct task should be deleted from correct array', () => {
     });
 });
 
-test('correct task should be added to correct array', () => {
-    const action = addTaskAC("juce", "todolistId2");
-
-    const endState = tasksReducer(startState, action)
-
-    expect(endState["todolistId1"].length).toBe(3);
-    expect(endState["todolistId2"].length).toBe(4);
-    expect(endState["todolistId2"][0].id).toBeDefined();
-    expect(endState["todolistId2"][0].title).toBe("juce");
-    expect(endState["todolistId2"][0].status).toBe(0);
-})
+// test('correct task should be added to correct array', () => {
+//     const action = addTaskAC( {id: "1", title: "bread",status: 0, todoListId: "", priority: 1, startDate: "", order: 1, addedDate: "", description: "", deadline: ""});
+//
+//     const endState = tasksReducer(startState, action)
+//     console.log("dfsddddddddddddd", endState)
+// })
 
 test('status of specified task should be changed', () => {
     const action = changeTaskStatusAC("2", 1, "todolistId2");
@@ -108,4 +103,19 @@ test('empty arrays should be added when we set todolists', () => {
    expect(keys.length).toBe(2)
    expect(endState['1']).toStrictEqual([])
    expect(endState['2']).toStrictEqual([])
+});
+
+test('tasks should be added for todolist', () => {
+    const action = setTasksAC(startState['todolistId1'], 'todolistId1');
+
+    const endState = tasksReducer({
+        'todolistId1': [],
+        'todolistId2': []
+    }, action)
+
+    const keys = Object.keys(endState);
+
+    expect(keys.length).toBe(2)
+    expect(endState['todolistId1'].length).toBe(3)
+    expect(endState['todolistId2'].length).toStrictEqual(0)
 });

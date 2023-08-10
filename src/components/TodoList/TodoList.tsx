@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import {FilterValuesType} from "../../state/todolists/todolists-reducer";
 import {AddItemForm} from "../AddItemForm/AddItemForm";
 import {EditableSpan} from "../EditableSpan/EditableSpan";
@@ -7,6 +7,8 @@ import {IconButton} from "@mui/material";
 import {Delete} from "@mui/icons-material";
 import {Task} from "../Task/Task";
 import {TaskType} from "../../api/tasks-api";
+import {useDispatch} from "react-redux";
+import {fetchTasksTC} from "../../state/tasks/tasks-reducer";
 
 
 type TodolistPropsType = {
@@ -34,6 +36,13 @@ export const Todolist = React.memo(({
                                         addTasks,
                                         ...restProps
                                     }: TodolistPropsType) => {
+
+    const dispatch = useDispatch()
+
+    useEffect(() => {
+        dispatch(fetchTasksTC(todolistId))
+    }, [])
+
     const [buttonName, setButtonName] = useState<FilterValuesType>("all");
 
     const onclickFilterHandler = useCallback((filter: FilterValuesType) => {

@@ -1,8 +1,8 @@
 import {v1} from "uuid";
 import {todolistsApi, TodolistType} from "../../api/todolists-api";
-import {Dispatch} from "redux";
+import {AnyAction, Dispatch} from "redux";
 import {ThunkAction} from "redux-thunk";
-import {AppDispatch, AppRootStateType} from "../store";
+import {AppRootStateType} from "../store";
 
 export type FilterValuesType = "all" | "completed" | "active"
 
@@ -11,27 +11,26 @@ export type TodolistDomainType = TodolistType & {
 }
 
 // types actions (objects)
-export type ActionTypes = RemoveTodolistACType |
-    AddTodolistACType |
+export type TodolistsActionTypes = RemoveTodolistActionType |
+    AddTodolistActionType |
     ChangeTodolistTitleACType |
     ChangeFilterACType |
-    SetTodosType
+    SetTodosActionType
 
-export type RemoveTodolistACType = ReturnType<typeof removeTodolistAC>
+export type RemoveTodolistActionType = ReturnType<typeof removeTodolistAC>
 
-export type AddTodolistACType = ReturnType<typeof addTodolistAC>
+export type AddTodolistActionType = ReturnType<typeof addTodolistAC>
 
 type ChangeTodolistTitleACType = ReturnType<typeof changeTodolistTitleAC>
 
 type ChangeFilterACType = ReturnType<typeof changeFilterAC>
 
-export type SetTodosType = ReturnType<typeof setTodolistsAC>
-
+export type SetTodosActionType = ReturnType<typeof setTodolistsAC>
 
 const initialState: TodolistDomainType[] = []
 
 
-export const todolistsReducer = (state = initialState, action: ActionTypes): TodolistDomainType[] => {
+export const todolistsReducer = (state = initialState, action: TodolistsActionTypes): TodolistDomainType[] => {
     switch (action.type) {
         case 'REMOVE-TODOLIST': {
             return state.filter(tl => tl.id !== action.payload.todolistId)
@@ -95,15 +94,28 @@ export const setTodolistsAC = (todos: TodolistType[]) => ({
     todos
 } as const)
 
+
 // thunks
 // thunk creator
-export const fetchTodolistsTC = (): AppThunk => {
+export const fetchTodolistsTC = ():AppThunk => {
     // thunk
     return (dispatch: Dispatch) => {
         todolistsApi.getTodolists().then(res => {
             dispatch(setTodolistsAC(res.data))
         })
     }
+}
+
+export const removeTodolistTC = (todolistId: string): AppThunk => (dispatch: Dispatch) => {
+    todolistsApi.deleteTodolist(todolistId).then(res => {
+        dispatch(removeTodolistAC(todolistId))
+    })
+}
+
+export const addTodolistTC = (title: string): AppThunk => (dispatch: Dispatch) => {
+    todolistsApi.createTodolist(title).then(res => {
+        dispatch(addTodolistAC(res.data.data.item.title))
+    })
 }
 
 // приоритетный способ написания санки
@@ -115,9 +127,9 @@ export const fetchTodolistsTC = (): AppThunk => {
 //         console.log(e)
 //     }
 // }
-
-
-type ReturnType = void
-
-type AppThunk = ThunkAction<ReturnType, AppRootStateType, unknown, ActionTypes>
+//
+//
+// type ReturnType = void
+//
+type AppThunk = ThunkAction<void, AppRootStateType, unknown, AnyAction>
 

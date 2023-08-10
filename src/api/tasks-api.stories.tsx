@@ -52,7 +52,7 @@ export const UpdateTask = () => {
     const [title, setTitle] = useState("")
 
     const updateTask = () => {
-        tasksApi.updateTask(todolistId, taskId, title)
+        tasksApi.updateTask(todolistId, taskId, {title: "", status: 1, deadline: "", description: "", priority: 0, startDate: ""})
             .then(res => setTasks(res.data))
             .catch(err => console.log(err))
     }
