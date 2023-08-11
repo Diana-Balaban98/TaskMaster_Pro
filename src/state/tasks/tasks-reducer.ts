@@ -38,7 +38,7 @@ export const tasksReducer = (state = initialState, action: TasksActionsType): Ta
                 ...state,
                 [action.payload.todolistId]: state[action.payload.todolistId].filter(t => t.id !== action.payload.taskId)
             }
-        case 'ADD-TASK':{
+        case 'ADD-TASK': {
             const copyState = {...state}
             const tasks = copyState[action.task.todoListId]
             const newTasks = [action.task, ...tasks]
@@ -114,6 +114,7 @@ export const setTasksAC = (tasks: TaskType[], taskId: string) => ({
     taskId
 } as const)
 
+
 // thunks
 export const fetchTasksTC = (todolistId: string): any => (dispatch: Dispatch) => {
     tasksApi.getTasks(todolistId).then(res => {
@@ -130,6 +131,8 @@ export const removeTaskTC = (todolistId: string, taskId: string) => (dispatch: D
 export const addTaskTC = (todolistId: string, title: string) => (dispatch: Dispatch) => {
     tasksApi.createTask(todolistId, title).then(res => {
         dispatch(addTaskAC(res.data.data.item))
+    }).catch(e => {
+        console.log(e)
     })
 }
 

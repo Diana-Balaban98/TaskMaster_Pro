@@ -115,6 +115,8 @@ export const removeTodolistTC = (todolistId: string): AppThunk => (dispatch: Dis
 export const addTodolistTC = (title: string): AppThunk => (dispatch: Dispatch) => {
     todolistsApi.createTodolist(title).then(res => {
         dispatch(addTodolistAC(res.data.data.item.title))
+    }).catch(e => {
+        console.log(e)
     })
 }
 
