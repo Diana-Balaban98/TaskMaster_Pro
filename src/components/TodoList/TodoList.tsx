@@ -6,7 +6,7 @@ import {SuperButton} from "../SuperButton/SuperButton";
 import {IconButton} from "@mui/material";
 import {Delete} from "@mui/icons-material";
 import {Task} from "../Task/Task";
-import {TaskType} from "../../api/tasks-api";
+import {TaskStatuses, TaskType} from "../../api/tasks-api";
 import {useDispatch} from "react-redux";
 import {fetchTasksTC} from "../../state/tasks/tasks-reducer";
 
@@ -18,7 +18,7 @@ type TodolistPropsType = {
     removeTask: (todolistId: string, id: string) => void
     changeFilter: (todolistId: string, value: FilterValuesType) => void
     addTasks: (todolistId: string, title: string) => void
-    changeStatus: (todolistId: string, taskId: string, checkedValue: boolean) => void
+    changeStatus: (todolistId: string, taskId: string, status: TaskStatuses) => void
     filter: FilterValuesType
     removeTodolist: (todolistId: string) => void
     updateTask: (todolistId: string, taskId: string, updateTitle: string) => void
@@ -54,8 +54,8 @@ export const Todolist = React.memo(({
         removeTask(todolistId, taskId)
     };
 
-    const changeStatusHandler = (taskId: string, checkedValue: boolean) => {
-        restProps.changeStatus(todolistId, taskId, checkedValue);
+    const changeStatusHandler = (taskId: string, status: TaskStatuses) => {
+        restProps.changeStatus(todolistId, taskId, status);
     }
 
     const updateTaskHandler = (taskId: string, updateTitle: string) => {
@@ -73,10 +73,12 @@ export const Todolist = React.memo(({
     }
 
 
-    const mappedTasks = allTasks.map((task, index) => {
-        return <Task task={task} changeStatus={changeStatusHandler} removeTask={removeTaskHandler}
-                     updateTask={updateTaskHandler}/>
-    })
+    const mappedTasks = allTasks.map((task, index) => <Task
+        task={task}
+        changeStatus={changeStatusHandler}
+        removeTask={removeTaskHandler}
+        updateTask={updateTaskHandler}
+    />)
 
 
     const removeTodolistHandler = () => {

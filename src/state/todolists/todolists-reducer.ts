@@ -1,8 +1,6 @@
-import {v1} from "uuid";
 import {todolistsApi, TodolistType} from "../../api/todolists-api";
-import {AnyAction, Dispatch} from "redux";
-import {ThunkAction} from "redux-thunk";
-import {AppRootStateType} from "../store";
+import {Dispatch} from "redux";
+import {AppThunk} from "../store";
 
 export type FilterValuesType = "all" | "completed" | "active"
 
@@ -11,11 +9,12 @@ export type TodolistDomainType = TodolistType & {
 }
 
 // types actions (objects)
-export type TodolistsActionTypes = RemoveTodolistActionType |
-    AddTodolistActionType |
-    ChangeTodolistTitleACType |
-    ChangeFilterACType |
-    SetTodosActionType
+export type TodolistsActionTypes =
+    | RemoveTodolistActionType
+    | AddTodolistActionType
+    | ChangeTodolistTitleACType
+    | ChangeFilterACType
+    | SetTodosActionType
 
 export type RemoveTodolistActionType = ReturnType<typeof removeTodolistAC>
 
@@ -32,37 +31,23 @@ const initialState: TodolistDomainType[] = []
 
 export const todolistsReducer = (state = initialState, action: TodolistsActionTypes): TodolistDomainType[] => {
     switch (action.type) {
-        case 'REMOVE-TODOLIST': {
+        case 'REMOVE-TODOLIST':
             return state.filter(tl => tl.id !== action.payload.todolistId)
-        }
-        case "ADD-TODOLIST": {
-            const newTodolist: TodolistDomainType = {
-                id: action.todolistId,
-                title: action.payload.title,
-                filter: 'all',
-                addedDate: new Date().toISOString(),
-                order: 0
-            }
-
-            return [...state, newTodolist]
-        }
-        case "CHANGE-TODOLIST-TITLE": {
+        case "ADD-TODOLIST":
+            return [...state, {...action.payload.todolist, filter: "all"}]
+        case "CHANGE-TODOLIST-TITLE":
             return state.map(tl => tl.id === action.payload.todolistId ? {...tl, title: action.payload.title} : tl)
-        }
-        case "CHANGE-TODOLIST-FILTER": {
+        case "CHANGE-TODOLIST-FILTER":
             return state.map(tl => tl.id === action.payload.todolistId ? {...tl, filter: action.payload.filter} : tl)
-        }
-        case "SET-TODOLISTS": {
+        case "SET-TODOLISTS":
             return action.todos.map(tl => ({...tl, filter: "all"}))
-        }
         default:
             return state
     }
 }
 
 
-// creation actions create
-
+// create object-action
 export const removeTodolistAC = (todolistId: string) => {
     return {
         type: 'REMOVE-TODOLIST',
@@ -70,11 +55,10 @@ export const removeTodolistAC = (todolistId: string) => {
     } as const
 }
 
-export const addTodolistAC = (title: string) => {
+export const addTodolistAC = (todolist: TodolistType) => {
     return {
         type: "ADD-TODOLIST",
-        payload: {title},
-        todolistId: v1()
+        payload: {todolist},
     } as const
 }
 
@@ -97,7 +81,7 @@ export const setTodolistsAC = (todos: TodolistType[]) => ({
 
 // thunks
 // thunk creator
-export const fetchTodolistsTC = ():AppThunk => {
+export const fetchTodolistsTC = (): AppThunk => {
     // thunk
     return (dispatch: Dispatch) => {
         todolistsApi.getTodolists().then(res => {
@@ -114,11 +98,20 @@ export const removeTodolistTC = (todolistId: string): AppThunk => (dispatch: Dis
 
 export const addTodolistTC = (title: string): AppThunk => (dispatch: Dispatch) => {
     todolistsApi.createTodolist(title).then(res => {
-        dispatch(addTodolistAC(res.data.data.item.title))
+        dispatch(addTodolistAC(res.data.data.item))
     }).catch(e => {
         console.log(e)
     })
 }
+
+export const changeTitleTodolistTC = (todolistId: string, title: string): AppThunk => (dispatch: Dispatch) => {
+    todolistsApi.updateTodolist(todolistId, title).then(res => {
+        dispatch(changeTodolistTitleAC(todolistId, title))
+    }).catch(e => {
+        console.log(e)
+    })
+}
+
 
 // приоритетный способ написания санки
 // export const _fetchTodolistsTC = (): AppThunk => async dispatch => {
@@ -131,7 +124,5 @@ export const addTodolistTC = (title: string): AppThunk => (dispatch: Dispatch) =
 // }
 //
 //
-// type ReturnType = void
-//
-type AppThunk = ThunkAction<void, AppRootStateType, unknown, AnyAction>
+
 
