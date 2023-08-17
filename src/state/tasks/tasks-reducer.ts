@@ -124,6 +124,25 @@ export const changeStatusTaskTC = (todolistId: string, taskId: string, status: T
     }
 }
 
+export const updateTitleTaskTC = (todolistId: string, taskId: string,title: string): AppThunk =>
+    (dispatch: Dispatch, getState: () => AppRootStateType) => {
+        const task = getState().tasks[todolistId].find(t => t.id === taskId)
+
+        if (task) {
+            tasksApi.updateTask(todolistId, taskId, {
+                title,
+                startDate: task.startDate,
+                priority: task.priority,
+                description: task.description,
+                deadline: task.deadline,
+                status: task.status
+            }).then(() => {
+                const action = changeTaskTitleAC(taskId, title, todolistId)
+                dispatch(action)
+            })
+        }
+    }
+
 export type UpdateDomainTaskModelType = {
     title?: string
     description?: string

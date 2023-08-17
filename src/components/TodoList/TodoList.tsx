@@ -40,6 +40,7 @@ export const Todolist = React.memo(({
     const dispatch = useDispatch()
 
     useEffect(() => {
+        // @ts-ignore
         dispatch(fetchTasksTC(todolistId))
     }, [])
 
