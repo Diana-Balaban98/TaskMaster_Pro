@@ -3,10 +3,12 @@ import {TodolistsActionTypes, todolistsReducer} from './todolists/todolists-redu
 import {AnyAction, applyMiddleware, combineReducers, legacy_createStore as createStore} from 'redux';
 import thunkMiddleware, {ThunkAction, ThunkDispatch} from "redux-thunk";
 import {useDispatch} from "react-redux";
+import {appReducer} from "../app/appReducer";
 
 // объединяя reducer-ы с помощью combineReducers,
 // мы задаём структуру нашего единственного объекта-состояния
 const rootReducer = combineReducers({
+    app: appReducer,
     tasks: tasksReducer,
     todolists: todolistsReducer
 })

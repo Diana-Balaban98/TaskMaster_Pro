@@ -3,27 +3,23 @@ import './App.css';
 import {Todolist} from "../components/TodoList/TodoList";
 import {AddItemForm} from "../components/AddItemForm/AddItemForm";
 import {ButtonAppBar} from "../components/ButtonAppBar/ButtonAppBar";
-import {Container, Grid, Paper} from "@mui/material";
 import {
     addTodolistTC,
     changeFilterAC,
     changeTitleTodolistTC,
     fetchTodolistsTC,
+    FilterValuesType,
     removeTodolistTC,
     TodolistDomainType,
 } from "../state/todolists/todolists-reducer";
-import {
-    addTaskTC,
-    changeStatusTaskTC,
-    changeTaskTitleAC,
-    removeTaskTC,
-    updateTitleTaskTC,
-} from "../state/tasks/tasks-reducer";
+import {addTaskTC, changeStatusTaskTC, removeTaskTC, updateTitleTaskTC,} from "../state/tasks/tasks-reducer";
 import {useSelector} from "react-redux";
 import {AppRootStateType, useAppDispatch} from "../state/store";
 import {TaskStatuses, TaskType} from "../api/tasks-api";
-import {FilterValuesType} from "../state/todolists/todolists-reducer";
-
+import Container from "@mui/material/Container";
+import Grid from "@mui/material/Grid";
+import LinearProgress from "@mui/material/LinearProgress";
+import Paper from "@mui/material/Paper";
 export type TaskAssocType = {
     [key: string]: TaskType[]
 }
@@ -98,6 +94,7 @@ export const AppWithRedux = () => {
     return (
         <div className="App">
             <ButtonAppBar/>
+            <LinearProgress/>
             <Container fixed>
                 <Grid container style={{marginTop: '10px'}}>
                     <AddItemForm callBack={addTodolist}/>
