@@ -20,6 +20,7 @@ import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 import LinearProgress from "@mui/material/LinearProgress";
 import Paper from "@mui/material/Paper";
+
 export type TaskAssocType = {
     [key: string]: TaskType[]
 }
@@ -71,18 +72,18 @@ export const AppWithRedux = () => {
         dispatch(changeFilterAC(todolistId, filter))
     }
 
-    const todos = todolists.map(el => {
-        return <Grid key={el.id} item>
+    const todos = todolists.map(todo => {
+        return <Grid key={todo.id} item>
             <Paper elevation={5} style={{margin: '10px'}}>
                 <Todolist
-                    todolistId={el.id}
-                    title={el.title}
-                    tasks={tasks[el.id]}
+                    todolistId={todo.id}
+                    title={todo.title}
+                    tasks={tasks[todo.id]}
                     removeTask={removeTask}
                     changeFilter={changeFilter}
                     addTasks={addTask}
                     changeStatus={changeStatusTask}
-                    filter={el.filter}
+                    filter={todo.filter}
                     removeTodolist={removeTodolist}
                     updateTask={updateTask}
                     updateTodolist={updateTitleTodolist}
